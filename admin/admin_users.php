@@ -90,7 +90,7 @@
                     <div class="tile-body">
                         <div class="row element-button">
                             <div class="col-sm-2">
-                            <a class="btn btn-add btn-sm" href="add-product.php" title="Thêm"><i class="fas fa-plus"></i>
+                            <a class="btn btn-add btn-sm" href="add-user.php" title="Thêm"><i class="fas fa-plus"></i>
                                 Thêm người dùng mới </a>
                             </div>              
                             <div class="col-sm-2">
@@ -134,7 +134,7 @@
                                       <td><a href="delete-user.php?id=<?= $row['id']?>" onclick="deleteRow('<?=$row['id']?>')" class="btn btn-primary btn-sm trash"  
                                                                   ><i class="fas fa-trash-alt">Xóa</i> 
                                           </a>
-                                      <a href="edit-product.php?id=<?= $row['id']?>" class="btn btn-primary btn-sm edit"><i class="fas fa-edit">Sửa</i></a>
+                                      <a href="edit-user.php?id=<?= $row['id']?>" class="btn btn-primary btn-sm edit"><i class="fas fa-edit">Sửa</i></a>
                                       </td>
 
                                   </tr>
