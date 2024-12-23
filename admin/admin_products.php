@@ -65,15 +65,15 @@
     </div>
     <hr>
     <ul class="app-menu">
-      <li><a class="app-menu__item haha" href="phan-mem-ban-hang.php"><i class='app-menu__icon bx bx-tachometer'></i>
+      <li><a class="app-menu__item haha" href="admin_dashboard.php"><i class='app-menu__icon bx bx-tachometer'></i>
           <span class="app-menu__label">Tổng quan Admin</span></a></li>
-      <li><a class="app-menu__item " href="admin_categories.php"><i class='app-menu__icon bx bx-tachometer'></i><span
+      <li><a class="app-menu__item" href="admin_categories.php"><i class='app-menu__icon bx bx-folder'></i><span
             class="app-menu__label">Quản lý danh mục</span></a></li>
-      <li><a class="app-menu__item active " href="admin_products.php"><i class='app-menu__icon bx bx-id-card'></i> <span
+      <li><a class="app-menu__item active " href="admin_products.php"><i class='app-menu__icon bx bx-box'></i> <span
             class="app-menu__label">Quản lý sản phẩm</span></a></li>
-      <li><a class="app-menu__item" href="admin_orders.php"><i class='app-menu__icon bx bx-user-voice'></i><span
+      <li><a class="app-menu__item" href="admin_orders.php"><i class='app-menu__icon bx bx-shopping-bag'></i><span
             class="app-menu__label">Quản lý đơn hàng</span></a></li>
-      <li><a class="app-menu__item" href="admin_users.php"><i class='app-menu__icon bx bx-purchase-tag-alt'></i><span 
+      <li><a class="app-menu__item" href="admin_users.php"><i class='app-menu__icon bx bx-user'></i><span 
             class="app-menu__label">Quản lý người dùng</span></a></li>
     </ul>
   </aside>

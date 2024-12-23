@@ -15,14 +15,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['them'])) {
 
 
     // Chuẩn bị câu truy vấn SQL
-    $sql = "INSERT INTO users (NAME, email, password,  created_at) 
-            VALUES ('$name', '$description', '$created_at')";
+    $sql = "INSERT INTO users (NAME, email, PASSWORD, phone, address, role ,created_at) 
+            VALUES ('$name', '$email','$pass', '$tlnumber', '$address', '$role', '$created_at')";
 
     $result = $connect->query($sql);
     // Thực thi truy vấn
     if ($result) {
-        echo "Thêm danh mục thành công!";
-        header("Location: admin_categories.php"); // Chuyển hướng về trang danh sách sản phẩm
+        echo "Thêm người dùng thành công!";
+        header("Location: admin_users.php"); 
     } else {
         echo "Lỗi: ";
     }
@@ -152,23 +152,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['them'])) {
     </div>
     <hr>
     <ul class="app-menu">
-      <li><a class="app-menu__item haha" href="phan-mem-ban-hang.php"><i class='app-menu__icon bx bx-tachometer'></i>
+      <li><a class="app-menu__item haha" href="admin_dashboard.php"><i class='app-menu__icon bx bx-tachometer'></i>
           <span class="app-menu__label">Tổng quan Admin</span></a></li>
-      <li><a class="app-menu__item active" href="admin_categories.php"><i class='app-menu__icon bx bx-tachometer'></i><span
+      <li><a class="app-menu__item" href="admin_categories.php"><i class='app-menu__icon bx bx-folder'></i><span
             class="app-menu__label">Quản lý danh mục</span></a></li>
-      <li><a class="app-menu__item " href="admin_products.php"><i class='app-menu__icon bx bx-id-card'></i> <span
+      <li><a class="app-menu__item " href="admin_products.php"><i class='app-menu__icon bx bx-box'></i> <span
             class="app-menu__label">Quản lý sản phẩm</span></a></li>
-      <li><a class="app-menu__item" href="admin_orders.php"><i class='app-menu__icon bx bx-user-voice'></i><span
+      <li><a class="app-menu__item" href="admin_orders.php"><i class='app-menu__icon bx bx-shopping-bag'></i><span
             class="app-menu__label">Quản lý đơn hàng</span></a></li>
-      <li><a class="app-menu__item" href="admin_users.php"><i class='app-menu__icon bx bx-purchase-tag-alt'></i><span 
+      <li><a class="app-menu__item active" href="admin_users.php"><i class='app-menu__icon bx bx-user'></i><span 
             class="app-menu__label">Quản lý người dùng</span></a></li>
     </ul>
   </aside>
   <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb">
-        <li class="breadcrumb-item">Danh sách danh mục</li>
-        <li class="breadcrumb-item"><a href="#">Thêm danh mục</a></li>
+        <li class="breadcrumb-item">Danh sách người dùng</li>
+        <li class="breadcrumb-item"><a href="#">Thêm người dùng</a></li>
       </ul>
     </div>
   <form method="post" enctype="multipart/form-data">
@@ -177,15 +177,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['them'])) {
 
         <div class="tile">
 
-          <h3 class="tile-title">Tạo danh mục mới</h3>
+          <h3 class="tile-title">Tạo người dùng mới</h3>
             <form class="row">
               <div class="form-group col-md-4">
-                <label class="control-label">Tên danh mục</label>
-                <input class="form-control" type="text" name="cat_name">
+                <label class="control-label">Tên người dùng</label>
+                <input class="form-control" type="text" name="us_name">
               </div>
               <div class="form-group col-md-4">
-                <label class="control-label">Mô tả</label>
-                <textarea class="form-control" type="text" name="cat_des"></textarea>
+                <label class="control-label">Email</label>
+                <input class="form-control" type="text" name="us_email">
+              </div>
+              <div class="form-group col-md-4">
+                <label class="control-label">Mật khẩu</label>
+                <input class="form-control" type="text" name="us_pass">
+              </div>
+              <div class="form-group col-md-4">
+                <label class="control-label">Số điện thoại</label>
+                <input class="form-control" type="text" name="us_number">
+              </div>
+              <div class="form-group col-md-4">
+                <label class="control-label">Địa chỉ</label>
+                <textarea class="form-control" type="text" name="us_address"></textarea>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="control-label">Vai trò</label>
+                <select class="form-control" name="role">
+                      <option value="">-- Chọn vai trò --</option>
+                      <?php
+                      $roles = ['admin', 'user']; 
+                      foreach ($roles as $role) {
+                          echo "<option value='$role'>$role</option>";
+                      }
+                      ?>
+                  </select>              
               </div>
               
               <input type="hidden" name="created_at" value="<?php echo date('Y-m-d H:i:s'); ?>">
@@ -194,7 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['them'])) {
           </div>
               <div>
                 <input class="btn btn-save" type="submit" value="Lưu lại" name="them"></input>
-                <a class="btn btn-cancel" href="admin-products.php">Hủy bỏ</a>
+                <a class="btn btn-cancel" href="admin-users.php">Hủy bỏ</a>
                 </div>
         </div>
   </form>
