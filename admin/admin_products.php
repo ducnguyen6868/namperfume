@@ -48,7 +48,7 @@
 
 
       <!-- User Menu-->
-      <li><a class="app-nav__item" href="/index.php"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+      <li><a class="app-nav__item" href="../"><i class='bx bx-log-out bx-rotate-180'></i> </a>
 
       </li>
     </ul>
@@ -124,27 +124,28 @@
                             </thead>
                             <tbody>
                                 <?php while ($row = $result->fetch_assoc()) { ?>
-            <tr>
-                <td><?php echo $row['id']; ?></td>
-                <td><?php echo $row['NAME']; ?></td>
-                <td><?php echo $row['brand']; ?></td>
-                <td><?php echo $row['description']; ?></td>
-                <td><?php echo number_format($row['price'], 0, '.', ','); ?></td>
-                <td><?php echo $row['quantity']; ?></td>
-                <td><?php echo $row['gender']; ?></td>
-                <td><?php echo $row['size']; ?></td>
-                <td><?php echo $row['category_id']; ?></td>
-                <td><img src='img/<?=$row["image"]?>' height='200px'></td>
-                <td><?php echo $row['created_at']; ?></td>
+                                <tr>
+                                  <td><?php echo $row['id']; ?></td>
+                                  <td><?php echo $row['name']; ?></td>
+                                  <td><?php echo $row['brand']; ?></td>
+                                  <td><?php echo $row['description']; ?></td>
+                                  <td><?php echo number_format($row['price'], 0, '.', ','); ?></td>
+                                  <td><?php echo $row['quantity']; ?></td>
+                                  <td><?php echo $row['gender']; ?></td>
+                                  <td><?php echo $row['size']; ?></td>
+                                  <td><?php echo $row['category_id']; ?></td>
+                                  <td><img src='img/<?=$row["image"]?>' height='200px'></td>
+                                  <td><?php echo $row['created_at']; ?></td>
 
-                <td><a href="delete-product.php?id=<?= $row['id']?>" onclick="deleteRow('<?=$row['id']?>')" class="btn btn-primary btn-sm trash"  
-                                            ><i class="fas fa-trash-alt">Xóa</i> 
-                    </a>
-                <a href="edit-product.php?id=<?= $row['id']?>" class="btn btn-primary btn-sm edit"><i class="fas fa-edit">Sửa</i></a>
-                </td>
+                                  <td>
+                                    <a href="delete-product.php?id=<?= $row['id']?>" onclick="deleteRow('<?=$row['id']?>')" class="btn btn-primary btn-sm trash">
+                                      <i class="fas fa-trash-alt">Xóa</i> 
+                                    </a>
+                                    <a href="edit-product.php?id=<?= $row['id']?>" class="btn btn-primary btn-sm edit"><i class="fas fa-edit">Sửa</i></a>
+                                  </td>
 
-            </tr>
-        <?php } ?>
+                                </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>

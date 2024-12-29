@@ -3,7 +3,7 @@
 define('DB_HOST', 'localhost');      // Host name
 define('DB_USER', 'root');           // Username
 define('DB_PASS', '');               // Password
-define('DB_NAME', 'nuochoa');  // Database name
+define('DB_NAME', 'namperfume');  // Database name
 
 // Biến kết nối toàn cục
 global $conn;

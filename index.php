@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +11,9 @@
     <link rel="shortcut icon" href="//theme.hstatic.net/1000340570/1000964732/14/favicon.png?v=6611" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <style>
@@ -101,10 +105,18 @@
         <p >Thương hiệu nước hoa được feedback nhiều nhất Việt Nam</p>
         <p>
             <span>Thương hiệu nước hoa từ 2013</span>
-            <span id="follow-orders">
-                Theo dõi đơn hàng
-                <i  style="margin:0 5px" class="fa-regular fa-bell"></i>
-            </span>
+            
+            <?php
+                if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!=""){
+                    $user_id=$_SESSION["user_id"];
+                }else{
+                    $user_id="";
+                }
+                echo"<span style='padding: 0 5px ; float:right' id='follow-order' >
+                <span>Theo dõi đơn hàng   </span>
+                <i  style='margin:0 5px' class='fa-regular fa-bell'></i>
+                <input type='hidden' id='user_id_follow_order' value='".$user_id."'></span>";
+            ?>
         </p>
     </header>
     <nav>
@@ -124,12 +136,39 @@
                     8 cửa hàng toàn quốc
                 </span>
                 <span style="padding: 0 20px ; border-right:solid 1px gray;">Cộng đồng</span>
-                <span style="padding: 0 5px ; ">
-                    <i class="fa-solid fa-user"></i>
-                    Đăng nhập
-                </span>
+                <?php
+                    include_once("config.php");
+                    $conn =new  mysqli($servername,$user , $password , $dbname);
+                    if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!=""){
+                        $user_id=$_SESSION["user_id"];
+                    }else{
+                        $user_id="";
+                    }
+                    if($user_id && $user_id!=null){
+                        $sql="SELECT name  FROM users WHERE id=$user_id";
+                        $result=$conn->query($sql);
+                        $data=$result->fetch_assoc();
+                        echo"<span style='padding: 0 5px ; '>
+                        <i class='fa-solid fa-user'></i>
+                        <a href='QuanLyNguoiDung/profile.php'>
+                        ".$data["name"]."
+                        </a>
+                        </span>";
+                    }else{
+                        echo"<span style='padding: 0 5px ; '>
+                        <i class='fa-solid fa-user'></i>
+                        <a href='QuanLyNguoiDung/login.php'>
+                        Đăng nhập
+                        </a>
+                        </span>";
+                    }
+                ?>
                 <span style="padding: 0 5px ; "><i class="fa-regular fa-heart"></i></span>
-                <span style="padding: 0 5px ; "><i class="fa-solid fa-cart-shopping"></i></span>
+                <?php
+                    echo"<span style='padding: 0 5px ;' >
+                    <i class='fa-solid fa-cart-shopping' id='cartIcon'></i> 
+                    <input type='hidden' id='user_id_cartIcon' value='".$user_id."'></span>";
+                ?>
             </div>
         </div>
         <div class="categories">
@@ -213,6 +252,9 @@
         </div>
         <div class="content" style="padding-top:35px">
             <?php
+                if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!=""){
+                    $user_id= $_SESSION["user_id"];
+                }
                 
                 if($conn->connect_error){
                     die("Failed to connect with database ".$conn->connect_error);
@@ -226,7 +268,7 @@
                         echo"<div style='width:100%; display:grid ; gap:20px; grid-template-columns:repeat(auto-fit,minmax(100px,200px))'>";
                         while(($data=$result->fetch_assoc())>0){
                             //var_dump($data);
-                            echo"<div  class='product-box' style='overflow:hidden ;position:relative ;border : solid 1px gray ; border-radius:10px ; box-shadow:0 0 10px gray'>";
+                            echo"<div class='product-box' style='overflow:hidden ;position:relative ;border : solid 1px gray ; border-radius:10px ; box-shadow:0 0 10px gray'>";
                             echo"<i  style='position:absolute ;top:10px ; right:10px' class='fa-regular fa-heart'></i>";
                             echo"<div style='height:250px; width:100%; overflow:hidden;'>
                             <img   class='img-products' style='height:auto' src=".$data["image"]." alt=".$data["name"] ." title=".$data["name"] .">
@@ -240,10 +282,18 @@
                             echo"<p style='padding-left:20px ; margin:10px 0 '>".$data["name"]."</p>";
                             echo"<p style='padding-left:20px ;margin:10px 0 ; height:40px'>".$data["description"]."</p>";
                             echo"<p style='color:red ;text-align:right ; margin:20px 0 ; padding-right:20px'>".$data["price"]." $</p>";
-                            echo"<div style=' display:flex ; justify-content:space-between ; align-items:center ;padding:0 20px ;margin-bottom:10px'>
-                            <button style='width:80% ; cursor:pointer' class='btn btn-danger'>Mua ngay</button>
-                            <i  style='font-size:larger ; cursor:pointer' class='fa-solid fa-cart-plus'></i>
-                            </div>";
+                            echo"<div style=' display:flex ; justify-content:space-around ; align-items:center ;padding:0 10px ;margin-bottom:10px'>
+                            <form class='orderProductIndex' method='post' action='orderIndex.php' >
+                                <input  type='hidden' name='product_id' value=".$data["id"].">
+                                <input  class='orderProduct_userId' type='hidden' name='user_id' value='".$user_id."'>
+                                <button  type='submit' style='border:none;width:120px ; padding:6px ; cursor:pointer; border-radius:10px ;text-align :center;color:white ; background-color:red;''>Mua ngay</button>
+                            </form >";
+                            echo"<form  class='addToCart' method='get' action='Cart/addCart.php'>
+                                <input type='hidden' name='product_id' value='".$data["id"]."'>
+                                <input  class='user_id' type='hidden' name='user_id' value='".$user_id."'>
+                                <button  style='border:none ; background:white'type='submit'><i class='fa-solid fa-cart-plus'></i></button>
+                            </form></div>";
+                            
                             echo"</div>";
                         }
                         
@@ -290,5 +340,60 @@
             display:block;
         }
     </style>
+    
+    <script>
+        const formsAdd = document.querySelectorAll(".addToCart");
+        formsAdd.forEach(formAdd=>{
+            const user_id = formAdd.querySelector("input[name='user_id']").value.trim(); // Lấy giá trị user_id trong form hiện tại
+            console.log(user_id);
+            formAdd.addEventListener("submit",function(event){
+                if(user_id==""|| user_id==null){
+                    event.preventDefault(); // Ngăn chặn form gửi đi
+                    alert("Bạn cần phải đăng nhập mới có thể thực hiện chức năng này !");
+                    window.location.href="QuanLyNguoiDung/login.php"
+                }
+            })
+        })
+    </script>
+    <script>
+        const cartIcon= document.getElementById("cartIcon");
+        const user_id = document.getElementById("user_id_cartIcon").value;
+        cartIcon.addEventListener("click",function(){
+            if(user_id==null || user_id==""){
+                alert("Bạn phải đăng nhập mới có thể xem giỏ hàng !");
+                //console.log(user_id);
+            }else{
+                window.location.href='Cart/cart.php';
+            }
+        })
+    </script>
+    <script>
+        const followOrder= document.getElementById("follow-order");
+        const user_id_follow_order = document.getElementById("user_id_follow_order").value;
+        followOrder.addEventListener("click",function(){
+            if(user_id_follow_order==null || user_id_follow_order==""){
+                alert("Bạn phải đăng nhập mới có thể xem chức năng này !");
+                //console.log(user_id);
+            }else{
+                window.location.href='followOrders.php';
+            }
+        })
+    </script>
+    <script>
+        const buyNowBtns= document.querySelectorAll(".orderProductIndex");
+        buyNowBtns.forEach(buyNowBtn=>{
+
+            const orderProduct_userId = buyNowBtn.querySelector(".orderProduct_userId").value;
+            buyNowBtn.addEventListener("submit",function(e){
+                if(orderProduct_userId === "" || orderProduct_userId ===null){
+                    alert("Bạn phải đăng nhập mới có thể mua hàng !");
+                    e.preventDefault();
+                }else{
+                    buyNowBtn.submit();
+                }
+            });
+        })
+    </script>
+
 </body>
 </html>

@@ -7,7 +7,7 @@ require_once 'config/db.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    
+    //echo"$email $password";
     $query = "SELECT * FROM users WHERE email = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $email);
@@ -18,8 +18,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_role'] = $user['role'];
-            header("Location: profile.php");
+            if($user['role']=='user'){
+                
+                header("Location: profile.php");
+            }else{
+                header("Location: ../admin/admin_dashboard.php");
+            }
         }
+        else {
+            echo "<script>alert('Email hoặc mật khẩu không chính xác');</script>";
+        }
+        
     }
 }
 ?>
@@ -59,5 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </div>
+
 
 <?php require_once 'footer.php'; ?>

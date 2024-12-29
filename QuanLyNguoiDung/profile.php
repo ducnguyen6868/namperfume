@@ -108,3 +108,54 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </div>
 
 <?php require_once 'footer.php'; ?>
+<!-- The Modal -->
+<div class="modal" id="myModal" style="display:none">
+        <div class="modal-dialog">
+        <div class="modal-content">
+        
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">Đăng xuất ?</h4>
+            <button  id="exit" type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body">
+            <p>Bạn có thực sự muốn đăng xuất không ?</p>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer">
+            <button type="button" class="btn btn-success" id='confirm' >Xác nhận</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" id='cancel'>Hủy bỏ</button>
+            </div>
+            
+        </div>
+    </div>
+<script>
+    document.addEventListener("DOMContentLoaded",function(){
+            const logoutBtn= document.getElementById("logoutBtn");
+            console.log(logoutBtn);
+            logoutBtn.addEventListener("click",function(){
+                const modal = document.getElementById("myModal");
+                modal.style.display = "block";
+    
+                const confirm = document.getElementById("confirm");
+                const cancel = document.getElementById("cancel");
+                const exit = document.getElementById("exit");
+    
+                confirm.onclick = () => {
+                    window.location.href="logout.php";
+                };
+    
+                cancel.onclick = () => {
+                    modal.style.display = "none"; // Ẩn modal
+                };
+                exit.onclick = () => {
+                    modal.style.display = "none"; // Ẩn modal
+                };
+            });
+        });
+
+    </script>    
+    

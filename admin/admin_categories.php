@@ -8,12 +8,14 @@ $result = $connect->query($sql);
 <html lang="en">
 
     <head>
-        <title>Danh sách nhân viên | Quản trị Admin</title>
+        <title>Quản lý danh mục | Quản trị Admin</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Main CSS-->
         <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="shortcut icon" href="//theme.hstatic.net/1000340570/1000964732/14/favicon.png?v=6611" type="image/png">
+
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <!-- or -->
         <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -36,7 +38,7 @@ $result = $connect->query($sql);
 
 
       <!-- User Menu-->
-      <li><a class="app-nav__item" href="/index.php"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+      <li><a class="app-nav__item" href="../"><i class='bx bx-log-out bx-rotate-180'></i> </a>
 
       </li>
     </ul>
@@ -106,16 +108,16 @@ $result = $connect->query($sql);
                             </thead>
                             <tbody>
                                 <?php while ($row = $result->fetch_assoc()) { ?>
-            <tr>
-                <td><?php echo $row['id']; ?></td>
-                <td><?php echo $row['NAME']; ?></td>
-                <td><?php echo $row['description']; ?></td>
-                <td><a href="edit-category.php?id=<?= $row['id']?>" class="btn btn-primary btn-sm edit"  >
-        <i class="fas fa-edit">Sửa</i></a>
-    </td>
+                                <tr>
+                                    <td><?php echo $row['id']; ?></td>
+                                    <td><?php echo $row['name']; ?></td>
+                                    <td><?php echo $row['description']; ?></td>
+                                    <td><a href="edit-category.php?id=<?= $row['id']?>" class="btn btn-primary btn-sm edit"  >
+                                    <i class="fas fa-edit">Sửa</i></a>
+                                    </td> 
 
-            </tr>
-        <?php } ?>
+                                </tr>
+                               <?php } ?>
                             </tbody>
                         </table>
                     </div>

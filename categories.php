@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -135,10 +138,33 @@
                     8 cửa hàng toàn quốc
                 </span>
                 <span style="padding: 0 20px ; border-right:solid 1px gray;">Cộng đồng</span>
-                <span style="padding: 0 5px ; ">
-                    <i class="fa-solid fa-user"></i>
-                    Đăng nhập
-                </span>
+                <?php
+                    include_once("config.php");
+                    $conn =new  mysqli($servername,$user , $password , $dbname);
+                    if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!=""){
+                        $user_id=$_SESSION["user_id"];
+                    }else{
+                        $user_id="";
+                    }
+                    if($user_id && $user_id!=null){
+                        $sql="SELECT name  FROM users WHERE id=$user_id";
+                        $result=$conn->query($sql);
+                        $data=$result->fetch_assoc();
+                        echo"<span style='padding: 0 5px ; '>
+                        <i class='fa-solid fa-user'></i>
+                        <a href='QuanLyNguoiDung/profile.php'>
+                        ".$data["name"]."
+                        </a>
+                        </span>";
+                    }else{
+                        echo"<span style='padding: 0 5px ; '>
+                        <i class='fa-solid fa-user'></i>
+                        <a href='QuanLyNguoiDung/login.php'>
+                        Đăng nhập
+                        </a>
+                        </span>";
+                    }
+                ?>
                 <span style="padding: 0 5px ; "><i class="fa-regular fa-heart"></i></span>
                 <span style="padding: 0 5px ; "><i class="fa-solid fa-cart-shopping"></i></span>
             </div>

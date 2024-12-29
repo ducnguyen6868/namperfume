@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -101,10 +104,17 @@
         <p >Thương hiệu nước hoa được feedback nhiều nhất Việt Nam</p>
         <p>
             <span>Thương hiệu nước hoa từ 2013</span>
-            <span id="follow-orders">
-                Theo dõi đơn hàng
-                <i  style="margin:0 5px" class="fa-regular fa-bell"></i>
-            </span>
+            <?php
+                if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!=""){
+                    $user_id=$_SESSION["user_id"];
+                }else{
+                    $user_id="";
+                }
+                echo"<span style='padding: 0 5px ; float:right' id='follow-order' >
+                <span>Theo dõi đơn hàng   </span>
+                <i  style='margin:0 5px' class='fa-regular fa-bell'></i>
+                <input type='hidden' id='user_id_follow_order' value='".$user_id."'></span>";
+            ?>
         </p>
     </header>
     <nav>
@@ -124,12 +134,39 @@
                     8 cửa hàng toàn quốc
                 </span>
                 <span style="padding: 0 20px ; border-right:solid 1px gray;">Cộng đồng</span>
-                <span style="padding: 0 5px ; ">
-                    <i class="fa-solid fa-user"></i>
-                    Đăng nhập
-                </span>
+                <?php
+                    include_once("config.php");
+                    $conn =new  mysqli($servername,$user , $password , $dbname);
+                    if(isset($_SESSION["user_id"]) && $_SESSION["user_id"]!=""){
+                        $user_id=$_SESSION["user_id"];
+                    }else{
+                        $user_id="";
+                    }
+                    if($user_id && $user_id!=null){
+                        $sql="SELECT name  FROM users WHERE id=$user_id";
+                        $result=$conn->query($sql);
+                        $data=$result->fetch_assoc();
+                        echo"<span style='padding: 0 5px ; '>
+                        <i class='fa-solid fa-user'></i>
+                        <a href='QuanLyNguoiDung/profile.php'>
+                        ".$data["name"]."
+                        </a>
+                        </span>";
+                    }else{
+                        echo"<span style='padding: 0 5px ; '>
+                        <i class='fa-solid fa-user'></i>
+                        <a href='QuanLyNguoiDung/login.php'>
+                        Đăng nhập
+                        </a>
+                        </span>";
+                    }
+                ?>
                 <span style="padding: 0 5px ; "><i class="fa-regular fa-heart"></i></span>
-                <span style="padding: 0 5px ; "><i class="fa-solid fa-cart-shopping"></i></span>
+                <?php
+                    echo"<span style='padding: 0 5px ;' >
+                    <i class='fa-solid fa-cart-shopping' id='cartIcon'></i> 
+                    <input type='hidden' id='user_id_cartIcon' value='".$user_id."'></span>";
+                ?>
             </div>
         </div>
         <div class="categories">
@@ -191,10 +228,17 @@
                     echo"<p style='color:red ;text-align:right ; '>".$data["price"]." $</p>";
                     echo"<p>Số lượng còn lại:<span style='font-weight:bold'>".$data["quantity"]."</span></p>";
                     echo"</div>";
-                    echo"<div style=' display:flex ; justify-content:space-between ; align-items:center ;padding:0 20px ;margin-bottom:10px'>
-                    <button style='width:80% ; cursor:pointer' class='btn btn-danger'>Mua ngay</button>
-                    <i  style='font-size:larger ; cursor:pointer' class='fa-solid fa-cart-plus'></i>
-                    </div>";
+                    echo"<div style=' display:flex ; justify-content:space-around ; align-items:center ;padding:0 10px ;margin-bottom:10px'>
+                        <form class='orderProductIndex' method='post' action='orderIndex.php' >
+                            <input  type='hidden' name='product_id' value=".$data["id"].">
+                            <input  class='orderProduct_userId' type='hidden' name='user_id' value='".$user_id."'>
+                            <button  type='submit' style='border:none;width:120px ; padding:6px ; cursor:pointer; border-radius:10px ;text-align :center;color:white ; background-color:red;''>Mua ngay</button>
+                        </form >";
+                    echo"<form  class='addToCart' method='get' action='Cart/addCart.php'>
+                            <input type='hidden' name='product_id' value='".$data["id"]."'>
+                            <input  class='user_id' type='hidden' name='user_id' value='".$user_id."'>
+                            <button  style='border:none ; background:white'type='submit'><i class='fa-solid fa-cart-plus'></i></button>
+                        </form></div>";
                     echo"</div>";
                 }
                 echo"</div>";                       
@@ -232,5 +276,29 @@
         }
         
     </style>
+    <script>
+        const cartIcon= document.getElementById("cartIcon");
+        const user_id = document.getElementById("user_id_cartIcon").value;
+        cartIcon.addEventListener("click",function(){
+            if(user_id==null || user_id==""){
+                alert("Bạn phải đăng nhập mới có thể xem giỏ hàng !");
+                //console.log(user_id);
+            }else{
+                window.location.href='Cart/cart.php';
+            }
+        })
+    </script>
+    <script>
+        const followOrder= document.getElementById("follow-order");
+        const user_id_follow_order = document.getElementById("user_id_follow_order").value;
+        followOrder.addEventListener("click",function(){
+            if(user_id_follow_order==null || user_id_follow_order==""){
+                alert("Bạn phải đăng nhập mới có thể xem chức năng này !");
+                //console.log(user_id);
+            }else{
+                window.location.href='followOrders.php';
+            }
+        })
+    </script>
 </body>
 </html>

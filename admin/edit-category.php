@@ -162,7 +162,7 @@
                 </div>
               <div class="form-group col-md-4">
                 <label class="control-label">Tên danh mục</label>
-                <input class="form-control" type="text" name="cat_name" value="<?php echo $category['NAME']?>">
+                <input class="form-control" type="text" name="cat_name" value="<?php echo $category['name']?>">
               </div>
               
               <div class="form-group col-md-4">

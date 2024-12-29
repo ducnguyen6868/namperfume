@@ -53,7 +53,7 @@ $connect->close();
   <header class="app-header">
     <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
     <ul class="app-nav">
-      <li><a class="app-nav__item" href="/index.php"><i class='bx bx-log-out bx-rotate-180'></i></a></li>
+      <li><a class="app-nav__item" href="../"><i class='bx bx-log-out bx-rotate-180'></i></a></li>
     </ul>
   </header>
 
@@ -136,7 +136,7 @@ $connect->close();
           <td><?php echo $order['id']; ?></td>
           <td><?php echo $order['user_id']; ?></td>
           <td><?php echo number_format($order['total_price'], 2); ?> VNĐ</td>
-          <td><?php echo $order['STATUS']; ?></td>
+          <td><?php echo $order['status']; ?></td>
           <td><?php echo $order['created_at']; ?></td>
         </tr>
         <?php endforeach; ?>

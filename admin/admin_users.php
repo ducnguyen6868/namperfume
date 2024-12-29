@@ -48,7 +48,7 @@
 
 
       <!-- User Menu-->
-      <li><a class="app-nav__item" href="/index.php"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+      <li><a class="app-nav__item" href="../"><i class='bx bx-log-out bx-rotate-180'></i> </a>
 
       </li>
     </ul>
@@ -123,9 +123,9 @@
                                 <?php while ($row = $result->fetch_assoc()) { ?>
                                   <tr>
                                       <td><?php echo $row['id']; ?></td>
-                                      <td><?php echo $row['NAME']; ?></td>
+                                      <td><?php echo $row['name']; ?></td>
                                       <td><?php echo $row['email']; ?></td>
-                                      <td><?php echo $row['PASSWORD']; ?></td>
+                                      <td style='max-width:200px ; height:auto ; overflow:scroll'><?php echo $row['password']; ?></td>
                                       <td><?php echo $row['phone']; ?></td>
                                       <td><?php echo $row['address']; ?></td>
                                       <td><?php echo $row['role']; ?></td>
@@ -138,7 +138,7 @@
                                       </td>
 
                                   </tr>
-        <?php } ?>
+                                  <?php } ?>
                             </tbody>
                         </table>
                     </div>
@@ -210,7 +210,7 @@
         function deleteRow(r) {
             let ans= confirm("Bạn có thật sự muốn xoá không?");
             if (ans){
-                location.href= "delete-category.php?id="+id;
+                location.href= "delete-user.php?id="+id;
             }
         }
         /*jQuery(function () {

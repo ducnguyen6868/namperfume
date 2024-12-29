@@ -10,18 +10,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $phone = $_POST['phone'];
     $address = $_POST['address'];
-    
-    $query = "INSERT INTO users (name, email, password, phone, address) 
+    $sql= "SELECT * FROM users WHERE email='$email'";
+    if(($user=$conn->query($sql))){
+        echo"<script>alert('Email đã được đăng ký')</script>";
+    }else{
+        $query = "INSERT INTO users (name, email, password, phone, address) 
               VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("sssss", $name, $email, $password, $phone, $address);
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sssss", $name, $email, $password, $phone, $address);
+        
+        if ($stmt->execute()) {
+            $_SESSION['message'] = "Đăng ký thành công!";
+            header("Location: login.php");
+        } else {
+            $_SESSION['error'] = "Đăng ký thất bại! Tài khoản đã tồn tại";
+        }
+    };
     
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "Đăng ký thành công!";
-        header("Location: login.php");
-    } else {
-        $_SESSION['error'] = "Đăng ký thất bại! Tài khoản đã tồn tại";
-    }
 }
 ?>
 
