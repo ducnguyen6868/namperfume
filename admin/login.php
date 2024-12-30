@@ -34,7 +34,7 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #222;
-            background-image: url('img/pexels-padrinan-255379.jpeg');
+            background-image: url('img/compute-ea4c57a4.png');
             background-size: cover;
             background-position: center;
             display: flex;

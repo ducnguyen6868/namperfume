@@ -1,8 +1,15 @@
 <?php
-$connect = new MySQLi('localhost', 'root', '', 'namperfume');
-// Thực hiện truy vấn để lấy dữ liệu từ bảng "product"
-$sql = "SELECT * FROM categories";
-$result = $connect->query($sql);
+
+
+        include("check_admin_session.php");
+
+        include("connection.php");
+        
+        // Thực hiện truy vấn để lấy dữ liệu từ bảng "product"
+        $sql = "SELECT * FROM categories";
+        $result = $connect->query($sql);
+        $activePage = 'categories'; 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,35 +45,13 @@ $result = $connect->query($sql);
 
 
       <!-- User Menu-->
-      <li><a class="app-nav__item" href="../"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+      <li><a class="app-nav__item" href="logout.php"><i class='bx bx-log-out bx-rotate-180'></i> </a>
 
       </li>
     </ul>
   </header>
   <!-- Sidebar menu-->
-  <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="img/cover-2.png" width="50px"
-        alt="User Image">
-      <div>
-        <p class="app-sidebar__user-name"><b>Admin</b></p>
-        <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
-      </div>
-    </div>
-    <hr>
-    <ul class="app-menu">
-      <li><a class="app-menu__item haha" href="admin_dashboard.php"><i class='app-menu__icon bx bx-tachometer'></i>
-          <span class="app-menu__label">Tổng quan Admin</span></a></li>
-      <li><a class="app-menu__item active" href="admin_categories.php"><i class='app-menu__icon bx bx-folder'></i><span
-            class="app-menu__label">Quản lý danh mục</span></a></li>
-      <li><a class="app-menu__item " href="admin_products.php"><i class='app-menu__icon bx bx-box'></i> <span
-            class="app-menu__label">Quản lý sản phẩm</span></a></li>
-      <li><a class="app-menu__item" href="admin_orders.php"><i class='app-menu__icon bx bx-shopping-bag'></i><span
-            class="app-menu__label">Quản lý đơn hàng</span></a></li>
-      <li><a class="app-menu__item" href="admin_users.php"><i class='app-menu__icon bx bx-user'></i><span 
-            class="app-menu__label">Quản lý người dùng</span></a></li>
-    </ul>
-  </aside>
+  <?php include("sidebar_menu.php");?>
     <main class="app-content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb side">
@@ -192,28 +177,6 @@ $result = $connect->query($sql);
                 location.href= "form-delete-category.php?id="+id;
             }
         }
-        /*jQuery(function () {
-            jQuery(".trash").click(function () {
-                swal({
-                    title: "Cảnh báo",
-                    text: "Bạn có chắc chắn là muốn xóa sản phẩm này?",
-                    buttons: ["Hủy bỏ", "Đồng ý"],
-                })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            swal("Đã xóa thành công.!", {
-
-                            });
-                        }
-                    });
-            });
-        });
-        oTable = $('#sampleTable').dataTable();
-        $('#all').click(function (e) {
-            $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
-            e.stopImmediatePropagation();
-        });
-        */
     </script>
 </body>
 

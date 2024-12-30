@@ -1,5 +1,6 @@
 <?php
 // Kết nối đến cơ sở dữ liệu
+include("check_admin_session.php");
 
 include("connection.php");
 
@@ -50,6 +51,7 @@ if ($result->num_rows > 0) {
         ];
     }
 }
+$activePage = 'dashboard'; 
 
 
 $connect->close();
@@ -75,28 +77,11 @@ $connect->close();
   <header class="app-header">
     <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
     <ul class="app-nav">
-      <li><a class="app-nav__item" href="../"><i class='bx bx-log-out bx-rotate-180'></i></a></li>
+      <li><a class="app-nav__item" href="logout.php"><i class='bx bx-log-out bx-rotate-180'></i></a></li>
     </ul>
   </header>
 
-  <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <aside class="app-sidebar">
-    <div class="app-sidebar__user">
-      <img class="app-sidebar__user-avatar" src="img/cover-2.png" width="50px" alt="User Image">
-      <div>
-        <p class="app-sidebar__user-name"><b>Admin</b></p>
-        <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
-      </div>
-    </div>
-    <hr>
-    <ul class="app-menu">
-      <li><a class="app-menu__item haha" href="admin_dashboard.php"><i class='app-menu__icon bx bx-tachometer'></i><span class="app-menu__label">Tổng quan Admin</span></a></li>
-      <li><a class="app-menu__item" href="admin_categories.php"><i class='app-menu__icon bx bx-folder'></i><span class="app-menu__label">Quản lý danh mục</span></a></li>
-      <li><a class="app-menu__item" href="admin_products.php"><i class='app-menu__icon bx bx-box'></i><span class="app-menu__label">Quản lý sản phẩm</span></a></li>
-      <li><a class="app-menu__item" href="admin_orders.php"><i class='app-menu__icon bx bx-shopping-bag'></i><span class="app-menu__label">Quản lý đơn hàng</span></a></li>
-      <li><a class="app-menu__item" href="admin_users.php"><i class='app-menu__icon bx bx-user'></i><span class="app-menu__label">Quản lý người dùng</span></a></li>
-    </ul>
-  </aside>
+  <?php include("sidebar_menu.php");?>
 
   <main class="app-content">
     <div class="app-title">
