@@ -134,7 +134,7 @@
                                   <td><?php echo $row['gender']; ?></td>
                                   <td><?php echo $row['size']; ?></td>
                                   <td><?php echo $row['category_id']; ?></td>
-                                  <td><img src='img/<?=$row["image"]?>' height='200px'></td>
+                                  <td><img src='../<?=$row["image"]?>' height='200px'></td>
                                   <td><?php echo $row['created_at']; ?></td>
 
                                   <td>

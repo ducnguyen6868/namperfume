@@ -20,7 +20,7 @@ if (isset($_POST['sua'])){
     $pr_img = $_FILES['pr_img']['name'];
     if (!empty($_FILES['pr_img']['name'])) {
       // Nếu có hình ảnh mới được tải lên
-      $pr_img = $_FILES['pr_img']['name'];
+      $pr_img = 'img/products/'.$_FILES['pr_img']['name'];
   } else {
       // Nếu không có hình ảnh mới, giữ nguyên hình ảnh hiện tại
       $pr_img = $_POST['current_img'];

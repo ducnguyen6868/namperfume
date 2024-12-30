@@ -20,15 +20,37 @@ if ($result->num_rows > 0) {
 
 // Lấy dữ liệu sản phẩm
 $productCount = [];
-
-$sql2 = "SELECT category_id, COUNT(*) as count FROM products GROUP BY category_id";
+$sql2 = "SELECT c.name, COUNT(*) as count 
+         FROM products p 
+         JOIN categories c ON p.category_id = c.id 
+         GROUP BY c.name";
 $result2 = $connect->query($sql2);
 
 if ($result2->num_rows > 0) {
-    while($row = $result2->fetch_assoc()) {
-        $productCount[$row['category_id']] = $row['count'];
+    while ($row = $result2->fetch_assoc()) {
+        $productCount[$row['name']] = $row['count'];
     }
 }
+// Lấy dữ liệu sản phẩm bán chạy nhất
+$bestSellingProducts = [];
+
+$sql = "SELECT p.name AS product_name, SUM(oi.quantity) AS total_quantity 
+        FROM order_items oi
+        JOIN products p ON oi.product_id = p.id
+        GROUP BY p.name
+        ORDER BY total_quantity DESC
+        LIMIT 5"; // Lấy top 5 sản phẩm bán chạy nhất
+$result = $connect->query($sql);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $bestSellingProducts[] = [
+            'name' => $row['product_name'],
+            'quantity' => $row['total_quantity']
+        ];
+    }
+}
+
 
 $connect->close();
 ?>
@@ -84,38 +106,30 @@ $connect->close();
     </div>
 
     <h3>Tổng doanh thu: <?php echo number_format($totalSales, 2); ?> VNĐ</h3>
-
+    <h4>Lượng sản phẩm đã bán dựa theo danh mục</h4>
     <div class="row">
       <div class="col-md-6">
         <canvas id="salesChart" width="400" height="200"></canvas>
       </div>
       <div class="col-md-6">
         <h4>Sản phẩm bán chạy nhất</h4>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Tên sản phẩm</th>
-              <th>Số lượng bán</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-              // Giả sử bạn đã lấy dữ liệu sản phẩm bán chạy nhất
-              $bestSellingProducts = [
-                ['name' => 'Sản phẩm A', 'quantity' => 150],
-                ['name' => 'Sản phẩm B', 'quantity' => 120],
-                ['name' => 'Sản phẩm C', 'quantity' => 100],
-              ];
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng bán</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($bestSellingProducts as $product): ?>
+              <tr>
+                <td><?php echo htmlspecialchars($product['name']); ?></td>
+                <td><?php echo $product['quantity']; ?></td>
+              </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
 
-              foreach ($bestSellingProducts as $product) {
-                echo "<tr>
-                        <td>{$product['name']}</td>
-                        <td>{$product['quantity']}</td>
-                      </tr>";
-              }
-            ?>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -152,26 +166,43 @@ $connect->close();
 
   <script>
     const ctx = document.getElementById('salesChart').getContext('2d');
-    const salesChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: <?php echo json_encode(array_keys($productCount)); ?>,
-            datasets: [{
-                label: 'Số lượng sản phẩm',
-                data: <?php echo json_encode(array_values($productCount)); ?>,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
+const salesChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: <?php echo json_encode(array_keys($productCount)); ?>, // Hiển thị tên danh mục
+        datasets: [{
+            label: 'Số lượng sản phẩm theo danh mục',
+            data: <?php echo json_encode(array_values($productCount)); ?>,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top',
+            }
         },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Danh mục sản phẩm' // Tên trục X
                 }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Số lượng sản phẩm' // Tên trục Y
+                },
+                beginAtZero: true
             }
         }
-    });
+    }
+});
+
   </script>
 </body>
 </html>

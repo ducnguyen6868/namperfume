@@ -162,7 +162,7 @@
                 </div>
               <div class="form-group col-md-4">
                 <label class="control-label">Tên sản phẩm</label>
-                <input class="form-control" type="text" name="pr_name" value="<?php echo $product['NAME']?>">
+                <input class="form-control" type="text" name="pr_name" value="<?php echo $product['name']?>">
               </div>
               <div class="form-group col-md-4">
                 <label class="control-label">Thương hiệu</label>

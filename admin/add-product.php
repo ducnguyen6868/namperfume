@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['them'])) {
     $size = $_POST['pr_size'];
     $category_id = $_POST['pr_catid'];
     $created_at = $_POST['created_at'];
-    $img=$_FILES['pr_img']['name'];
+    $img='img/products/'.$_FILES['pr_img']['name'];
 
 
     // Chuẩn bị câu truy vấn SQL

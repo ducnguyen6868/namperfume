@@ -24,7 +24,7 @@ if ($order_id > 0) {
     }
     
     // Lấy thông tin chi tiết các sản phẩm trong đơn hàng từ bảng order_items
-    $orderItemsQuery = "SELECT oi.product_id, p.name, oi.quantity, oi.price 
+    $orderItemsQuery = "SELECT oi.product_id, p.name, p.image, oi.quantity, oi.price 
                         FROM order_items oi
                         JOIN products p ON oi.product_id = p.id
                         WHERE oi.order_id = ?";
@@ -97,6 +97,7 @@ if ($order_id > 0) {
                     <thead>
                         <tr>
                             <th>Tên sản phẩm</th>
+                            <th>Hình ảnh</th>
                             <th>Số lượng</th>
                             <th>Giá</th>
                             <th>Tổng</th>
@@ -106,6 +107,7 @@ if ($order_id > 0) {
                         <?php while ($item = $orderItemsResult->fetch_assoc()) { ?>
                             <tr>
                                 <td><?= $item['name'] ?></td>
+                                <td><img src="../<?=$item['image']?>" alt="" height="100px"></td>
                                 <td><?= $item['quantity'] ?></td>
                                 <td><?= number_format($item['price'], 0) ?> VND</td>
                                 <td><?= number_format($item['quantity'] * $item['price'], 0) ?> VND</td>
